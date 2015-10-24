@@ -36,7 +36,7 @@ describe Stack do
       end
     end
 
-    context 'small / empty stacks' do
+    context 'larger stacks' do
       before :each do
         @stack = Stack.new
         @stack.push 1
