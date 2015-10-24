@@ -64,4 +64,19 @@ describe LinkedList do
     specify { expect { @list.reverse.print_values }.to output(reversed_output).to_stdout }
     specify { expect { @list.reverse.reverse.print_values }.to output(standard_output).to_stdout }
   end
+
+  describe '#reverse!' do
+    before :each do
+      @list = LinkedList.new 12, 99, 37
+    end
+
+    reversed_output = '37 --> 99 --> 12 --> nil
+'
+    specify { expect { @list.reverse!.print_values }.to output(reversed_output).to_stdout }
+
+    it 'returns the same list if reversed twice' do
+      reversed_list = @list.reverse!
+      expect(reversed_list.reverse!).to equal(@list)
+    end
+  end
 end
