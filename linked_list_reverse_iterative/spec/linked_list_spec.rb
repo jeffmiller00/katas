@@ -79,4 +79,38 @@ describe LinkedList do
       expect(reversed_list.reverse!).to equal(@list)
     end
   end
+
+  describe '#has_cycle?' do
+    context 'small / empty lists' do
+      before :each do
+        @list = LinkedList.new
+      end
+
+      specify { expect( @list.has_cycle? ).to be false }
+      it 'returns false for a single element' do
+        @list.add_element(1)
+        expect( @list.has_cycle? ).to be false
+      end
+
+      it 'returns true if the two nodes reference each other' do
+        @list.add_element(1)
+        @list.add_element(2)
+        @list.tail.next_node = @list.head
+        expect(@list.has_cycle?).to be true
+      end
+    end
+
+    context 'larger stacks' do
+      before :each do
+        @list = LinkedList.new (1..10).to_a
+      end
+
+      specify { expect( @list.has_cycle? ).to be false }
+
+      it 'returns the same list if reversed twice' do
+        @list.tail.next_node = @list.head
+        expect(@list.has_cycle?).to be true
+      end
+    end
+  end
 end

@@ -77,4 +77,29 @@ class LinkedList
     end
     self
   end
+
+  def has_cycle?
+    loop_found = false
+
+    # Both start at the head
+    tortoise = hare = @head
+    while hare do
+      # Hare moves one step
+      hare = hare.next_node
+
+      if hare
+        # If hare exists, it moves another step and tortoise moves one
+        #  thus hare moving twice as fast as tortoise.
+        hare = hare.next_node
+        tortoise = tortoise.next_node
+      end
+
+      if tortoise == hare
+        loop_found = true
+        break
+      end
+    end
+
+    loop_found
+  end
 end
