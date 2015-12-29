@@ -8,7 +8,7 @@ attempts.times do
   game.guess = Random.new.rand(game.doors.size)
 
   game.open_door!
-  game.guess = game.switch_choice!
+  game.switch_choice!
   game.open_door!
   wins = wins + 1 if game.winner?
 end

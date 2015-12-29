@@ -27,7 +27,7 @@ class Door
   end
 
   def open!
-    raise(AlreadyOpen, 'That door is already opened!') if (@state == :open)
+    raise(AlreadyOpen, 'That door is already opened!') if self.open?
     @state = :open
     @prize
   end
