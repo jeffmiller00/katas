@@ -1,7 +1,11 @@
 require 'minitest/autorun'
 
 def make_change amount, coins = []
-  return [] if amount == 0
+  begin
+    return [] if amount.to_i == 0
+  rescue NoMethodError => e
+    raise ArgumentError.new('Not a valid amount.')
+  end
 
   coin   = 25 if amount >= 25
   coin ||= 10 if amount >= 10
@@ -34,5 +38,14 @@ class TestMakeChange < Minitest::Test
     assert_equal [1,1,1,1,10,10], make_change(24).sort
     assert_equal [1,5,10,25], make_change(41).sort
     assert_equal [1,25,25,25,25], make_change(101).sort
+  end
+
+  def test_some_bad_inputs
+    assert_raises ArgumentError do
+      make_change(:a)
+    end
+    assert_raises ArgumentError do
+      make_change(Array.new)
+    end
   end
 end
