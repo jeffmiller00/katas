@@ -13,4 +13,14 @@ open(url) do |rss|
     weighted_list << Array.new(weight, item.title)
   end
   puts "Weighted random read is: #{weighted_list.flatten.sample}"
+
+  puts "|--------------------------------------------------"
+  while true
+    weighted = weighted_list.flatten.sample
+    random   = feed.items.sample.title
+    if weighted == random
+      puts "The random weighted book is: #{weighted} | #{random}"
+      break
+    end
+  end
 end
