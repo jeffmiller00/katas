@@ -1,6 +1,6 @@
-# Root Insurance Coding Challenge
+# NAME REDACTED
 
-The problem statement can be found [here](https://gist.github.com/dan-manges/1e1854d0704cb9132b74). Generally, I tried to add functionality that was requested and logical extensions without going too deep (balancing basic functionality with [YAGNI](https://martinfowler.com/bliki/Yagni.html)).
+Generally, I tried to add functionality that was requested and logical extensions without going too deep (balancing basic functionality with [YAGNI](https://martinfowler.com/bliki/Yagni.html)).
 
 ## Files
  - **app/trip_log.rb**
