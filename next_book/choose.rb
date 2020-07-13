@@ -1,7 +1,10 @@
 require 'rss'
 require 'open-uri'
 
-url = 'https://www.goodreads.com/review/list_rss/75655479?key=Tt8soer4Aj_JcLAjAxBJblQhIpii7DaWhZwX_Lz-6miLtJmG&shelf=to-read&order=d'
+all_url = 'https://www.goodreads.com/review/list_rss/75655479?key=Tt8soer4Aj_JcLAjAxBJblQhIpii7DaWhZwX_Lz-6miLtJmG&shelf=to-read&order=d&per_page=200'
+own_url = 'https://www.goodreads.com/review/list_rss/75655479?key=Tt8soer4Aj_JcLAjAxBJblQhIpii7DaWhZwX_Lz-6miLtJmG&shelf=own&per_page=200'
+
+url = ARGV[0] == 'own' ? own_url : all_url
 open(url) do |rss|
   feed = RSS::Parser.parse(rss)
   puts "Title: #{feed.channel.title}"
