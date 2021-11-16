@@ -8,43 +8,24 @@ def send_results(xmas_list)
     email_body << "#{pair.first} buys for #{pair.last}\n"
   end
 
+  # The mailing addresses are in config_mail.
+
   Mail.deliver do
-    from 'jeffmiller00@gmail.com'
-    to   'Mom <Colleenamiller14@gmail.com>, Dad <mbeltd@aim.com>'
-    # to   'jeffmiller00@gmail.com'
+    from send_from_address
+    to   send_to_address
     subject 'Secret Santa Pairs -- Kids'
     body email_body
   end
 end
 
 def eligible_pair?(picker, pulled_name)
-  # inelibible_pairs = [['Jeff','Krista'],['Greg','Shaunda'],['Jenna','Tim'],['Talere','Zach']]
-  inelibible_pairs = [['Lauren','Vince'],['Carter','Hallie'],['Evelyn','Miles']]
+  # See config_mail section A
   return false if picker == pulled_name
   return false if inelibible_pairs.include?([picker,pulled_name].sort)
   true
 end
 
-# Adults
-xmas_pairs = {
-  'Jeff' => nil,
-  'Krista' => nil,
-  'Greg' => nil,
-  'Shaunda' => nil,
-  'Tim' => nil,
-  'Jenna' => nil,
-  'Zach' => nil,
-  'Talere' => nil
-}
-# Kids
-xmas_pairs = {
-  'Vince' => nil,
-  'Lauren' => nil,
-  'Hallie' => nil,
-  'Carter' => nil,
-  'Miles' => nil,
-  'Evelyn' => nil
-}
+# See config_mail section B
 
 hat = xmas_pairs.keys.shuffle
 
