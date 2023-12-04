@@ -6,11 +6,6 @@ As far as the Elf has been able to figure out, you have to figure out which of t
 The first match makes the card worth one point and each match after the first doubles the point value of that card.
 =end
 
-
-# input_file = './input_data/day4.txt')
-# @engine_schematic = File.readlines(input_file, chomp: true)
-
-
 class Scratchcard
   attr_reader :my_numbers, :winning_numbers
 
@@ -37,5 +32,45 @@ class Scratchcard
       score *= 2
     end
     score
+  end
+end
+
+class ScratchcardGame
+  attr_reader :cards
+
+  def initialize(input_file: './input_data/day4.txt', direct_input: nil)
+    @cards = []
+    @card_input = []
+    @number_of_cards = {}
+    if direct_input.nil?
+      @input_file = input_file
+      @card_input = File.readlines(@input_file, chomp: true)
+    else
+      @card_input = direct_input
+    end
+
+    @card_input.each_with_index do |card, index|
+      @cards << Scratchcard.new(card)
+      @number_of_cards[index] = 1
+    end
+  end
+
+  def total_score
+    @cards.map(&:score).sum
+  end
+
+  def play
+    @cards.each_with_index do |card, index|
+      @number_of_cards[index].times do
+        card.winners.each_with_index do |winner, winner_index|
+          @number_of_cards[index + winner_index + 1] = @number_of_cards[index + winner_index + 1].to_i + 1
+        end
+      end
+    end
+    @number_of_cards
+  end
+
+  def total_cards
+    @number_of_cards.values.sum
   end
 end
