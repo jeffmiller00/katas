@@ -9,7 +9,12 @@ class SeedMap
     @almanac = File.read(@input_file, chomp: true)
     @seed_map = {}
     @seed_map_keys = ['seed-to-soil', 'soil-to-fertilizer', 'fertilizer-to-water', 'water-to-light', 'light-to-temperature', 'temperature-to-humidity', 'humidity-to-location']
-    @seeds = @almanac.split("\n\n").first.split(':').last.split(' ').map(&:to_i)
+    @seed_plan = @almanac.split("\n\n").first.split(':').last.split(' ').map(&:to_i)
+    # This is not performant enough for the real data set...would need to refactor everything to use ranges instead of arrays
+    @seeds = []
+    @seed_plan.each_slice(2) do |start, span|
+      @seeds += (start..(start + span - 1)).to_a
+    end
     parse_almanac
   end
 

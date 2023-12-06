@@ -60,7 +60,7 @@ RSpec.describe "SeedMapTest", type: :request do
     let(:sm) { SeedMap.new('./spec/test_input/day5.txt') }
 
     it 'sets the seeds' do
-      expect(sm.seeds).to eq([79,14,55,13])
+      expect(sm.seeds).to eq((79..(79+14-1)).to_a + (55..(55+13-1)).to_a)
     end
 
     it 'creates the seed-to-soil map' do
@@ -95,7 +95,7 @@ RSpec.describe "SeedMapTest", type: :request do
     end
 
     it 'finds the lowest location' do
-      expect(sm.seeds.map { |seed| sm.find_location(seed) }.min).to eq(35)
+      expect(sm.seeds.map { |seed| sm.find_location(seed) }.min).to eq(46)
     end
   end
 end
