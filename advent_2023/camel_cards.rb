@@ -32,7 +32,7 @@ class Hand
     hand_input.split('').map do |card_input|
       hand << card_to_value(card_input)
     end
-    hand.sort.reverse
+    hand
   end
 
   def power
@@ -74,7 +74,7 @@ class Hand
   end
 
   def one_pair?
-    @cards.tally.values.max == 2 && @cards.tally.values.uniq == [1,2]
+    @cards.tally.values.max == 2 && @cards.tally.values.uniq.sort == [1,2]
   end
 
   def has_higher_card_than?(other_cards)
@@ -142,6 +142,5 @@ class CamelCards
 end
 
 if __FILE__ == $0
-  binding.pry
   puts "Part 1: The total winnings are: #{CamelCards.new.winnings}"
 end

@@ -43,7 +43,7 @@ RSpec.describe "CamelCardsTest", type: :request do
     let(:game) { CamelCards.new('./spec/test_input/day7.txt') }
 
     it 'creates hands correctly' do
-      expect(game.hands.first.cards).to eq([13,10,3,3,2])
+      expect(game.hands.first.cards).to eq([3,2,10,3,13])
       expect(game.hands.first.bid).to eq(765)
     end
 
