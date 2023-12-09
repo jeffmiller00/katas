@@ -5,12 +5,16 @@ require 'pry'
 class Hand
   attr_reader :cards, :bid
 
-  def initialize(hand_input)
+  def initialize(hand_input, has_joker = false)
+    @has_joker = has_joker
     @cards = build_hand(hand_input.split(' ').first)
     @bid = hand_input.split(' ').last.to_i
   end
 
   def card_to_value(card_input)
+    # Part 2: This turns from Jack to Joker
+    return 1 if card_input == 'J' && @has_joker
+
     case card_input
     when 'A'
       14
@@ -54,26 +58,37 @@ class Hand
   end
 
   def five_of_a_kind?
+    return @cards.uniq.size == 1 || (@cards.uniq.size == 2 && @cards.uniq.include?(1)) if @has_joker
     @cards.uniq.size == 1
   end
 
   def four_of_a_kind?
+    return ((@cards.uniq.size == 2 && @cards.tally.values.max == 4) ||
+            (@cards.uniq.size == 3 && @cards.uniq.include?(1) && (@cards.tally[1] + @cards.tally.select{|card, count| card != 1}.values.max) == 4)) if @has_joker
     @cards.uniq.size == 2 && @cards.tally.values.max == 4
   end
 
   def full_house?
+    return ((@cards.uniq.size == 2 && @cards.tally.values.max == 3 && @cards.tally.values.min == 2) ||
+            (@cards.uniq.size == 3 && @cards.uniq.include?(1))) if @has_joker
     @cards.uniq.size == 2 && @cards.tally.values.max == 3 && @cards.tally.values.min == 2
   end
 
   def three_of_a_kind?
+    return ((@cards.uniq.size == 3 && @cards.tally.values.max == 3) ||
+            ((@cards.uniq.size == 4 && @cards.uniq.include?(1) && (@cards.tally[1] + @cards.tally.select{|card, count| card != 1}.values.max) == 3))) if @has_joker
     @cards.uniq.size == 3 && @cards.tally.values.max == 3
   end
 
   def two_pair?
+    # You can't have two pair with a joker -- it's either a single pair or 3-of-a-kind
+    return false if @has_joker && @cards.uniq.include?(1)
     @cards.tally.values.tally[2] == 2
   end
 
   def one_pair?
+    return ((@cards.tally.values.max == 2 && @cards.tally.values.uniq.sort == [1,2]) ||
+            (@cards.uniq.size == 5 && @cards.include?(1))) if @has_joker
     @cards.tally.values.max == 2 && @cards.tally.values.uniq.sort == [1,2]
   end
 
@@ -102,10 +117,10 @@ end
 class CamelCards
   attr_reader :hands
 
-  def initialize(input_file = './input_data/day7.txt')
+  def initialize(input_file = './input_data/day7.txt', has_joker = false)
     @hands = []
     File.readlines(input_file).each do |line|
-      @hands << Hand.new(line)
+      @hands << Hand.new(line, has_joker)
     end
   end
 
@@ -142,5 +157,10 @@ class CamelCards
 end
 
 if __FILE__ == $0
-  puts "Part 1: The total winnings are: #{CamelCards.new.winnings}"
+  which_part = ARGV[0].to_i || 1
+  if which_part == 1
+    puts "Part 1: The total winnings are: #{CamelCards.new.winnings}"
+  else
+    puts "Part 2: The total winnings are: #{CamelCards.new('./input_data/day7.txt', true).winnings}"
+  end
 end
