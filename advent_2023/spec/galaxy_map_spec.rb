@@ -121,11 +121,16 @@ RSpec.describe "GalaxyMapTest", type: :request do
     it 'calculates shortest path sum correctly' do
       expect(gm.galaxies.combination(2).size).to eq((1..429).reduce(:*) / ((1..2).reduce(:*) * (1..(429-2)).reduce(:*)))
       expect(gm.shortest_path_sum).to be > 7397146
+      expect(gm.shortest_path_sum).to eq(9599070)
     end
   end
 
-=begin
---- Part Two ---
-=end
+  describe 'Part 2' do
+    let(:gm) { GalaxyMap.new }
 
+    it 'calculates shortest path sum correctly' do
+      expect(gm.shortest_path_sum).to be < 842646756432
+      expect(gm.shortest_path_sum).to eq(842645913794)
+    end
+  end
 end
